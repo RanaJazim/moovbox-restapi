@@ -1,0 +1,8 @@
+{
+    "api": {
+        "movie": {
+            "apiKey": "app_api_key",
+            "accessToken": "app_api_access_token"
+        }
+    }
+}
