@@ -1,8 +1,9 @@
 {
     "api": {
         "movie": {
-            "apiKey": "app_api_key",
+            "apiKey": "apiKey",
             "accessToken": "app_api_access_token"
         }
-    }
+    },
+    "jwtPrivateKey": "jwtPrivateKey"
 }
