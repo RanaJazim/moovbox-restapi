@@ -13,7 +13,7 @@ const register = async function (user) {
     return { isRegister: true, user };
 }
 
-const login = async function(user) {
+const login = async function (user) {
     const checking_user = await User.findOne({
         email: user.email,
     });
@@ -24,7 +24,24 @@ const login = async function(user) {
     return match ? checking_user : null;
 }
 
+const toggleFavourites = async function (user_id, movie_id, is_favourite) {
+    console.log(is_favourite);
+    if (is_favourite) {
+        return await User.updateOne(
+            { '_id': user_id },
+            { '$addToSet': { 'favourites': movie_id } },
+            { safe: true }
+        );
+    }
+    return await User.updateOne(
+        { '_id': user_id },
+        { $pull: { favourites: movie_id } },
+        { safe: true }
+    );
+}
+
 module.exports = {
     register,
     login,
+    toggleFavourites,
 };

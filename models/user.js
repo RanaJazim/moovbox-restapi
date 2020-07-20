@@ -9,21 +9,22 @@ const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
+    favourites: [Number],
 });
 
 // hashing the password
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     var user = this;
 
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) return next();
 
     // generate a salt
-    bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.genSalt(10, function (err, salt) {
         if (err) return next(err);
 
         // hash the password using our new salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
+        bcrypt.hash(user.password, salt, function (err, hash) {
             if (err) return next(err);
 
             // override the cleartext password with the hashed one
@@ -34,7 +35,7 @@ userSchema.pre('save', function(next) {
 });
 
 // generating token
-userSchema.method('generateToken', async function() {
+userSchema.method('generateToken', async function () {
     const payload = { _id: this._id, name: this.name, email: this.email };
     const token = await jwt.sign(payload, config.get("jwtPrivateKey"));
 
